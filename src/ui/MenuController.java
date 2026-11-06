@@ -73,16 +73,36 @@ public class MenuController {
 
     private void handleBuscar() {
         System.out.println("--- BUSCAR LETRA ---");
-        // lógica  Validations
+        char letra = Validations.pedirLetra(this.read, "Ingresa la letra que deseas buscar: ");
+        int prioridad = Validations.pedirPrioridad(this.read, "Ingresa en que prioridad buscarla (1 o 2): ");
+
+
+        System.out.println("Buscando la letra '" + letra + "' en la prioridad " + prioridad + "...");
     }
 
-    private static void handleEliminar(Scanner read) {
+    private void handleEliminar() {
         System.out.println("--- ELIMINAR LETRA ---");
+        //
+        int prioridad = Validations.pedirPrioridad(this.read, "Ingresa de que prioridad deseas eliminar (1 o 2): ");
 
+        if (prioridad == 1) {
+            System.out.println("Eliminando el primer nodo de la prioridad 1 (como Cola)...");
+
+        } else {
+            char letra = Validations.pedirLetra(this.read, "Ingresa la letra exacta que deseas eliminar: ");
+            System.out.println("Buscando y eliminando la letra '" + letra + "' de la prioridad 2...");
+
+        }
     }
 
-    private static void handleModificar(Scanner read) {
+    private void handleModificar() {
         System.out.println("--- MODIFICAR LETRA ---");
+        int prioridad = Validations.pedirPrioridad(this.read, "Ingresa en que prioridad esta la letra a modificar (1 o 2): ");
+
+        char letraVieja = Validations.pedirLetra(this.read, "Ingresa la letra ACTUAL que deseas cambiar: ");
+        char letraNueva = Validations.pedirLetra(this.read, "Ingresa la NUEVA letra: ");
+
+        System.out.println("Intentando modificar '" + letraVieja + "' por '" + letraNueva + "' en prioridad " + prioridad + "...");
 
     }
 
