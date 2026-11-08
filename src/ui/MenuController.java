@@ -2,12 +2,17 @@ package ui;
 
 import utils.Validations;
 import java.util.Scanner;
+import data_structures.Lista;
+import models.Nodo;
 
 public class MenuController {
-    // Atributo global
+    // Atributos globales
     private Scanner read;
+    private Lista lista;
+
     public MenuController() {
         this.read = new Scanner(System.in);
+        this.lista = new Lista(); // Inicializamos la lista vacía al arrancar
     }
 
     public void start() {
@@ -24,38 +29,40 @@ public class MenuController {
             System.out.println("7. Creditos");
             System.out.println("8. Salir");
 
-            //  validación genérica de números positivos
+            // validación genérica de números positivos
             option = Validations.pedirenteropositivo(read, "Elija una opcion: ");
 
             switch (option) {
                 case 1:
                     System.out.println("--- INICIALIZAR LISTA ---");
-                    // logica Dani
+                    this.lista.Iniciar_vaciarLista();
+                    System.out.println("Lista inicializada y memoria liberada exitosamente.");
                     break;
                 case 2:
                     System.out.println("--- MOSTRAR LISTA ---");
-                    // logica  Emi
+                    int orden = Validations.pedirPrioridad(read, "Ingresa 1 para Ascendente (P a F) o 2 para Descendente (F a P): ");
+                    this.lista.mostrar(orden == 1);
                     break;
                 case 3:
-                    handleBuscar(read);
+                    handleBuscar();
                     break;
                 case 4:
-                    handleInsertar(read);
+                    handleInsertar();
                     break;
                 case 5:
-                    handleEliminar(read);
+                    handleEliminar();
                     break;
                 case 6:
-                    handleModificar(read);
+                    handleModificar();
                     break;
                 case 7:
                     showCredits();
                     break;
                 case 8:
-                    System.out.println(" Hasta luego...");
+                    System.out.println("Hasta luego...");
                     break;
                 default:
-                    System.out.println(" Opcion no valida. Escoja del 1 al 8.");
+                    System.out.println("Opcion no valida. Escoja del 1 al 8.");
             }
         }
         this.read.close();
@@ -63,12 +70,13 @@ public class MenuController {
 
 
     // MÉTODOS DELEGADOS
-
     private void handleInsertar() {
         System.out.println("--- INSERTAR LETRA ---");
         char letra = Validations.pedirLetra(this.read, "Ingresa la letra a insertar: ");
         int prioridad = Validations.pedirPrioridad(this.read, "Ingresa la prioridad (1 o 2): ");
-        System.out.println("Lógica de inserción pendiente para " + letra + "...");
+
+        this.lista.insertar(letra, prioridad);
+        System.out.println("Letra '" + letra + "' insertada correctamente en prioridad " + prioridad + ".");
     }
 
     private void handleBuscar() {
@@ -76,43 +84,69 @@ public class MenuController {
         char letra = Validations.pedirLetra(this.read, "Ingresa la letra que deseas buscar: ");
         int prioridad = Validations.pedirPrioridad(this.read, "Ingresa en que prioridad buscarla (1 o 2): ");
 
+        Nodo resultado = this.lista.buscarOptimizada(letra, prioridad);
 
-        System.out.println("Buscando la letra '" + letra + "' en la prioridad " + prioridad + "...");
+        if (resultado != null) {
+            System.out.println("¡Exito! La letra '" + resultado.info + "' SI existe en la prioridad " + resultado.prioridad);
+        } else {
+            System.out.println("No se encontro la letra '" + letra + "' en la prioridad " + prioridad);
+        }
     }
 
     private void handleEliminar() {
         System.out.println("--- ELIMINAR LETRA ---");
-        //
         int prioridad = Validations.pedirPrioridad(this.read, "Ingresa de que prioridad deseas eliminar (1 o 2): ");
 
         if (prioridad == 1) {
             System.out.println("Eliminando el primer nodo de la prioridad 1 (como Cola)...");
-
+            Nodo borrado = this.lista.eliminarP1();
+            if (borrado != null) {
+                System.out.println("Se elimino la letra: " + borrado.info);
+            } else {
+                System.out.println("No hay elementos de prioridad 1 para eliminar.");
+            }
         } else {
             char letra = Validations.pedirLetra(this.read, "Ingresa la letra exacta que deseas eliminar: ");
-            System.out.println("Buscando y eliminando la letra '" + letra + "' de la prioridad 2...");
-
+            Nodo borrado = this.lista.eliminarP2(letra);
+            if (borrado != null) {
+                System.out.println("Se elimino correctamente la letra: " + borrado.info);
+            } else {
+                System.out.println("No se encontro esa letra en la prioridad 2.");
+            }
         }
     }
 
     private void handleModificar() {
         System.out.println("--- MODIFICAR LETRA ---");
         int prioridad = Validations.pedirPrioridad(this.read, "Ingresa en que prioridad esta la letra a modificar (1 o 2): ");
-
         char letraVieja = Validations.pedirLetra(this.read, "Ingresa la letra ACTUAL que deseas cambiar: ");
         char letraNueva = Validations.pedirLetra(this.read, "Ingresa la NUEVA letra: ");
 
-        System.out.println("Intentando modificar '" + letraVieja + "' por '" + letraNueva + "' en prioridad " + prioridad + "...");
-
+        if (prioridad == 1) {
+            Nodo nodo = this.lista.buscarOptimizada(letraVieja, 1);
+            if (nodo != null) {
+                nodo.info = letraNueva;
+                System.out.println("Letra modificada con exito en P1.");
+            } else {
+                System.out.println("No se encontro la letra original.");
+            }
+        } else {
+            // Modificación en P2 respetando el orden alfabético
+            Nodo borrado = this.lista.eliminarP2(letraVieja);
+            if (borrado != null) {
+                this.lista.insertar(letraNueva, 2);
+                System.out.println("Letra modificada y reordenada alfabeticamente con exito.");
+            } else {
+                System.out.println("No se encontro la letra original.");
+            }
+        }
     }
 
     private static void showCredits() {
         System.out.println("--- CREDITOS ---");
         System.out.println("Materia: Estructuras de Datos");
-        System.out.println("Integrantes:");
-        System.out.println("- Daniel Martinez Rodriguez [25420122]");
-        System.out.println("- Emiliano Lara");
-        System.out.println("- Juan Diego Arroyo Bucio [55420050]");
+        System.out.println(" Daniel Martinez Rodriguez [25420122]");
+        System.out.println(" Emiliano Lara");
+        System.out.println(" Juan Diego Arroyo Bucio [55420050]");
     }
-
 }

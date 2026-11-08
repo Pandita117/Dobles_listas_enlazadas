@@ -1,3 +1,4 @@
+package data_structures;
 import models.Nodo;
 
 public class Lista {
@@ -139,18 +140,18 @@ public class Lista {
 
     public void mostrar(boolean ascendente) {
         if (PrimerNodo == null) {
-            System.out.println("La lista esta vacia, mi compita we.");
+            System.out.println("La lista esta vacia.");
             return;
         }
         if (ascendente) {
-            System.out.println("\n--- Mostrando Lista (P a F / Ascendente) ---");
+            System.out.println("--- Mostrando Lista (P a F / Ascendente) ---");
             Nodo actual = PrimerNodo;
             while (actual != null) {
                 System.out.println("[" + actual.info + " (P" + actual.prioridad + ")]");
                 actual = actual.sig;
             }
         } else {
-            System.out.println("\n--- Mostrando Lista (F a P / Descendente) ---");
+            System.out.println("--- Mostrando Lista (F a P / Descendente) ---");
             Nodo actual = finalNodo;
             while (actual != null) {
                 System.out.println("[" + actual.info + " (P" + actual.prioridad + ")]");
@@ -192,4 +193,51 @@ public class Lista {
         }
         return null;
     }
+
+    // --- ELIMINAR PRIORIDAD 1 (Como Cola / FIFO) ---
+    public Nodo eliminarP1() {
+        if (PrimerNodo == null || PrimerNodo.prioridad != 1) return null; // No hay P1
+
+        Nodo eliminado = PrimerNodo;
+
+        // El puenteo
+        PrimerNodo = PrimerNodo.sig;
+        if (PrimerNodo != null) {
+            PrimerNodo.ant = null;
+        } else {
+            finalNodo = null; // La lista quedó completamente vacía
+        }
+
+        // Limpiamos la RAM (Garbage Collector)
+        eliminado.sig = null;
+        return eliminado;
+    }
+
+    // --- ELIMINAR PRIORIDAD 2 (Búsqueda exacta) ---
+    public Nodo eliminarP2(char letra) {
+        // Reutilizamos Búsqueda Optimizada para encontrar el nodo exacto
+        Nodo objetivo = buscarOptimizada(letra, 2);
+
+        if (objetivo == null) return null; // No existe
+
+        // Puenteo de apuntadores (desconectar el nodo)
+        if (objetivo.ant != null) {
+            objetivo.ant.sig = objetivo.sig;
+        } else {
+            PrimerNodo = objetivo.sig;
+        }
+
+        if (objetivo.sig != null) {
+            objetivo.sig.ant = objetivo.ant;
+        } else {
+            finalNodo = objetivo.ant;
+        }
+
+        // Clean de memoria
+        objetivo.sig = null;
+        objetivo.ant = null;
+
+        return objetivo;
+    }
+
 }
