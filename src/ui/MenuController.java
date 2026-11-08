@@ -143,10 +143,11 @@ public class MenuController {
     }
 
     private static void showCredits() {
-        System.out.println("--- CREDITOS ---");
-        System.out.println("Materia: Estructuras de Datos");
-        System.out.println(" Daniel Martinez Rodriguez [25420122]");
-        System.out.println(" Emiliano Lara");
-        System.out.println(" Juan Diego Arroyo Bucio [55420050]");
+        System.out.println("                  CRÉDITOS                    ");
+        System.out.println("Materia: Estructura de Datos");
+        System.out.println("Integrantes del equipo:");
+        System.out.println(" - Daniel Martínez Rodriguez (Matrícula: 25420122)");
+        System.out.println(" - Juan Diego Arroyo Bucio    (Matrícula: 25420050)");
+        System.out.println(" - Emiliano Lara Dominguez    (Matrícula: 25420010)");
     }
 }
