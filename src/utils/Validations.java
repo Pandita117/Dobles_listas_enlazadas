@@ -15,7 +15,7 @@ public class Validations {
 
             // Validamos que no esté vacío, que sea de longitud 1 y que sea una letra
             if (input.isEmpty()) {
-                System.out.println("¡Error! No dejes el campo en blanco, mi compita we.");
+                System.out.println("¡Error! No dejes el campo en blanco");
             } else if (input.length() > 1) {
                 System.out.println("¡Error! Solo debes ingresar UNA letra.");
             } else if (!Character.isLetter(input.charAt(0))) {
