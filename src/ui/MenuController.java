@@ -2,8 +2,6 @@ package ui;
 
 import utils.Validations;
 import java.util.Scanner;
-import models.Nodo;
-import models.Lista;
 
 public class MenuController {
     // Atributo global
@@ -27,7 +25,7 @@ public class MenuController {
             System.out.println("8. Salir");
 
             //  validación genérica de números positivos
-            option = Validations.pedirEnteroPositivo(read, "Elija una opcion: ");
+            option = Validations.pedirenteropositivo(read, "Elija una opcion: ");
 
             switch (option) {
                 case 1:
