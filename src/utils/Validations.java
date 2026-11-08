@@ -1,3 +1,7 @@
+package utils;
+
+import java.util.Scanner;
+
 public class Validations {
 
     // validar que solo ingrese una letra (A-Z, a-z)

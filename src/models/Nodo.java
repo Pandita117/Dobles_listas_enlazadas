@@ -1,14 +1,16 @@
+
+package models;
+
 public class Nodo {
 
     public char info;
-    int prioridad;
+    public int prioridad;
+    public Nodo sig;
+    public Nodo ant;
 
-    Nodo sig;
-    Nodo ant;
 
-
-    public Nodo(char v, int prioridad) {
-        this.info = v;
+    public Nodo(char info, int prioridad) {
+        this.info = info;
         this.prioridad = prioridad;
         this.sig = null;
         this.ant = null;

@@ -2,6 +2,8 @@ package ui;
 
 import utils.Validations;
 import java.util.Scanner;
+import models.Nodo;
+import models.Lista;
 
 public class MenuController {
     // Atributo global
@@ -110,7 +112,7 @@ public class MenuController {
         System.out.println("--- CREDITOS ---");
         System.out.println("Materia: Estructuras de Datos");
         System.out.println("Integrantes:");
-        System.out.println("- Daniel [ Matricula]");
+        System.out.println("- Daniel Martinez Rodriguez [25420122]");
         System.out.println("- Emiliano Lara");
         System.out.println("- Juan Diego Arroyo Bucio [55420050]");
     }
